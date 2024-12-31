@@ -10,10 +10,11 @@ export enum CartActionTypes {
     REMOVE_FROM_CART = "REMOVE_FROM_CART",
 }
 
-type AddToCartAction = {
+type updateCartItemQuantityAction = {
     type:"ADD_TO_CART",
     payload: {
         id: number;
+        quantity: number;
     }
 }
 
@@ -41,7 +42,7 @@ type CartAction =
     | ApplyCouponAction
     | RemoveCouponAction
     | ClearCartAction
-    | AddToCartAction
+    | updateCartItemQuantityAction
     | RemoveFromCartAction
 
 const CartReducer = (
@@ -58,7 +59,7 @@ const CartReducer = (
                     ...state,
                     items: state.items.map((item) =>
                         item.id === action.payload.id
-                            ? { ...item, quantity: item.quantity + 1 }
+                            ? { ...item, quantity: action.payload.quantity }
                             : item
                     ),
                 }
@@ -69,7 +70,7 @@ const CartReducer = (
                     ...state.items,
                     {
                         id: action.payload.id,
-                        quantity: 1,
+                        quantity: action.payload.quantity,
                     },
                 ],
             }

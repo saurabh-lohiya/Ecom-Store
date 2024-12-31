@@ -33,6 +33,7 @@ const ProductCollection: FC<ProductCollectionProps> = (props) => {
                 {products.map((product) => (
                     <SwiperSlide key={product.id} className="w-60">
                         <ProductCard
+                            id={product.id}
                             title={product.title}
                             description={product.description}
                             price={product.price}
