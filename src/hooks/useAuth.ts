@@ -4,7 +4,7 @@ import { checkAuth } from "../helpers/auth";
 import useAuthReducer from "../jotai/AuthReducer";
 
 export function useAuth() {
-    const [, dispatch] = useAuthReducer()
+    const [userState, dispatch] = useAuthReducer()
     useEffect(() => {
         checkAuth().then((isAuthenticated) => {
             dispatch({
@@ -18,4 +18,8 @@ export function useAuth() {
             console.error(error)
         })
     }, [dispatch])
+    return {
+        userState,
+        dispatch
+    }
 }

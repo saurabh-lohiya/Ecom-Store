@@ -19,7 +19,8 @@ export async function checkAuth() {
         // if (response.ok) {
         //     return true
         // }
-        return true
+        console.error("User is not authenticated")
+        return false
     } catch (error) {
         console.error(error)
         return false
