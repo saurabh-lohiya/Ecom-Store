@@ -1,4 +1,12 @@
 // Consider moving interfaces here to global.d.ts or importing them where needed
+
+type IUser = {
+    name: string;
+    email: string;
+    isAuthenticated: boolean;
+    cart: ICart;
+}
+
 type IProduct = {
     id: number;
     title: string;
@@ -6,6 +14,18 @@ type IProduct = {
     categoryId: number;
     price: number;
     img: string;
+}
+
+type IcartItem = {
+    id: number;
+    quantity: number;
+}
+
+type ICart = {
+    items: IcartItem[];
+    total: number;
+    count: number;
+    couponCode: string;
 }
 
 type IProductCategoryName =
@@ -30,4 +50,13 @@ type IProductCollection = {
     category: string;
 }
 
-export type { IProduct, IProducts, IProductCollection, IProductCategory, IProductCategoryName };
+export type {
+    IUser,
+    IProduct,
+    ICart,
+    IcartItem,
+    IProducts,
+    IProductCollection,
+    IProductCategory,
+    IProductCategoryName,
+}
