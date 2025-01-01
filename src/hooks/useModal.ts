@@ -13,26 +13,29 @@ export function useModal() {
         toggleModal({ isOpen: false, children: null })
     }, [toggleModal])
     
-    function toggleModalState(children: React.ReactNode = null) {
-        if (Modal.isOpen) {
-            closeModal()
-        } else {
-            openModal(children)
-        }
-    }
-
-    function openModal(children: React.ReactNode) {
+    const openModal = useCallback((children: React.ReactNode) => {
         toggleModal({ isOpen: true, children })
-    }
+    }, [toggleModal])
+
+    const toggleModalState = useCallback((children: React.ReactNode = null) => {
+        if (children) {
+            openModal(children)
+        } else {
+            closeModal()
+        }
+    }, [openModal, closeModal])
 
     useEffect(() => {
         if (Modal.isOpen) {
             afterModalOpen()
+        } else {
+            document.body.style.overflow = "auto"
         }
-        return () => closeModal()
-    }, [Modal.isOpen, closeModal])
+        // Removed the cleanup function that was closing the modal
+    }, [Modal.isOpen])
 
     return {
+        Modal,
         toggleModalState,
     }
 }

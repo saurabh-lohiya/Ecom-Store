@@ -1,34 +1,27 @@
 import { FC } from "react"
-import modalAtom from "../../jotai/modal"
-import { useAtom } from "jotai"
+import { useModal } from "../../hooks/useModal"
+import CloseIcon from "./CloseIcon"
 
 const Modal: FC = () => {
-    const [modal, toggleModal] = useAtom(modalAtom)
-    const { children } = modal
-    if (!modal.isOpen) return null
-    
+    const {
+        Modal: { children },
+        toggleModalState,
+    } = useModal()
+
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <button
-                className="absolute bg-white top-2 right-4 px-4 py-2 rounded"
-                onClick={() => toggleModal({ isOpen: false, children: null })}
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="black"
+        <div
+            id="modal"
+            className="fixed top-0 left-0 h-[100%] w-[100%] bg-black bg-opacity-50 flex items-center justify-center z-[9999]"
+        >
+            <div className="relative bg-white p-6 rounded shadow-lg w-full max-w-md m-auto z-60">
+                <button
+                    className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 rounded-full p-1 border-2 border-gray-600 hover:border-gray-800"
+                    onClick={() => toggleModalState()}
                 >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                    />
-                </svg>
-            </button>
-            {children}
+                    <CloseIcon />
+                </button>
+                {children}
+            </div>
         </div>
     )
 }

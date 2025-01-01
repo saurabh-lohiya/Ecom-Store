@@ -6,11 +6,13 @@ import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
+import ModalWrapper from "./components/Modal/ModalWrapper"
 
 const App = () => {
     return (
-        <div className="flex flex-col min-h-screen">
+        <>
             <Header />
+            <ModalWrapper />
             <Banner />
             <Router>
                 <Routes>
@@ -20,7 +22,7 @@ const App = () => {
                 </Routes>
             </Router>
             <Footer />
-        </div>
+        </>
     )
 }
 

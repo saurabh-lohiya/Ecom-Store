@@ -11,6 +11,22 @@ export function pattern<T extends string>(
     return (value: T) => (regex.test(value) ? undefined : message)
 }
 
+export function matchField<T extends Record<string, unknown>>(
+    fieldToMatch: keyof T,
+    message: string
+): (value: string, values?: T) => string | undefined {
+    return (value: string, values?: T) => {
+        return values && value === values[fieldToMatch] ? undefined : message
+    }
+}
+
+export function minLength<T extends string>(
+    length: number,
+    message: string
+): (value: T) => string | undefined {
+    return (value: T) => (value.length >= length ? undefined : message)
+}
+
 export default function useForm<T extends Record<string, unknown>>(initialValues: T) {
     const [values, setValues] = useState<T>(initialValues)
     const [errors, setErrors] = useState<{ [key: string]: string }>({})
@@ -22,7 +38,7 @@ export default function useForm<T extends Record<string, unknown>>(initialValues
 
     function registerField(
         name: keyof T,
-        validators?: Array<(value: string) => string | undefined>
+        validators?: Array<(value: string, values?: T) => string | undefined>
     ) {
         return {
             name,
@@ -31,7 +47,7 @@ export default function useForm<T extends Record<string, unknown>>(initialValues
             onBlur: () => {
                 if (validators && validators.length > 0) {
                     const error = validators
-                        .map(validate => validate(values[name] as unknown as string))
+                        .map(validate => validate(values[name] as unknown as string, values))
                         .find(errorMsg => errorMsg !== undefined)
                     setErrors((prev) => ({ ...prev, [name]: error || "" }))
                 }
