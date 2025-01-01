@@ -1,8 +1,10 @@
+import { useState } from "react";
 import { coupons } from "../common/coupons";
 import useCartReducer from "../jotai/CartReducer";
 
 export function useCart() {
     const [cart, dispatch] = useCartReducer()
+    const [isSidebarCartOpen, setIsSidebarCartOpen] = useState(false)
 
     const updateCartItemQuantity = (id: number, quantity: number) => {
         dispatch({
@@ -16,7 +18,16 @@ export function useCart() {
 
     const handleRemoveFromCart = (id: number) => {
         dispatch({
-            type: "REMOVE_FROM_CART",
+            type: "REDUCE_ITEM_QUANTITY",
+            payload: {
+                id,
+            },
+        })
+    }
+
+    const handleRemoveCartItem = (id: number) => {
+        dispatch({
+            type: "REMOVE_CART_ITEM",
             payload: {
                 id,
             },
@@ -52,8 +63,11 @@ export function useCart() {
     }
     return {
         cart,
+        isSidebarCartOpen,
+        setIsSidebarCartOpen,
         updateCartItemQuantity,
         handleRemoveFromCart,
+        handleRemoveCartItem,
         handleClearCart,
         handleApplyCoupon,
         handleRemoveCoupon,

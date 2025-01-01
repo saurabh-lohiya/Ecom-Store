@@ -7,7 +7,8 @@ export enum CartActionTypes {
     REMOVE_COUPON = "REMOVE_COUPON",
     CLEAR_CART = "CLEAR_CART",
     ADD_TO_CART = "ADD_TO_CART",
-    REMOVE_FROM_CART = "REMOVE_FROM_CART",
+    REMOVE_CART_ITEM = "REMOVE_CART_ITEM",
+    REDUCE_ITEM_QUANTITY = "REDUCE_ITEM_QUANTITY",
 }
 
 type updateCartItemQuantityAction = {
@@ -19,7 +20,7 @@ type updateCartItemQuantityAction = {
 }
 
 type RemoveFromCartAction = {
-    type: "REMOVE_FROM_CART",
+    type: "REDUCE_ITEM_QUANTITY",
     payload: {
         id: number;
     }
@@ -38,12 +39,20 @@ type RemoveCouponAction = {
     type: "REMOVE_COUPON",
 }
 
+type RemoveCartItemAction = {
+    type: "REMOVE_CART_ITEM",
+    payload: {
+        id: number;
+    }
+}
+
 type CartAction =
     | ApplyCouponAction
     | RemoveCouponAction
     | ClearCartAction
     | updateCartItemQuantityAction
     | RemoveFromCartAction
+    | RemoveCartItemAction
 
 const CartReducer = (
     state: ICart = initialCartState,
@@ -75,7 +84,7 @@ const CartReducer = (
                 ],
             }
         }
-        case "REMOVE_FROM_CART": {
+        case "REDUCE_ITEM_QUANTITY": {
             const existingItem = state.items.find(
                 (item) => item.id === action.payload.id
             )
@@ -93,6 +102,14 @@ const CartReducer = (
                     item.id === action.payload.id
                         ? { ...item, quantity: item.quantity - 1 }
                         : item
+                ),
+            }
+        }
+        case "REMOVE_CART_ITEM": {
+            return {
+                ...state,
+                items: state.items.filter(
+                    (item) => item.id !== action.payload.id
                 ),
             }
         }
