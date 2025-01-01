@@ -7,18 +7,20 @@ import Home from "./pages/Home"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
 import ModalWrapper from "./components/Modal/ModalWrapper"
+import Orders from "./components/Orders"
 
 const App = () => {
     return (
         <>
+            <Router>
             <Header />
             <ModalWrapper />
             <Banner />
-            <Router>
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
+                    <Route path="/orders" element={<Orders />} />
                 </Routes>
             </Router>
             <Footer />

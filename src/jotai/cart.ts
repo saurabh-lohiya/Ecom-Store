@@ -1,8 +1,8 @@
 import { atom } from "jotai"
-import { ICart, IcartItem, IProduct } from "../interface"
+import { ICart, IcartItem } from "../interface"
 import { products } from "../common/products"
 
-export function getProduct(id: number): IProduct | undefined {
+export function getProduct(id: number) {
     return products.find((product) => product.id === id)
 }
 

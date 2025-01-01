@@ -1,13 +1,9 @@
+interface Coupon {
+    discount: number // Percentage discount
+}
 
-export const coupons = {
-    "10OFF": 10,
-    "20OFF": 20,
-    "30OFF": 30,
-    "40OFF": 40,
-    "50OFF": 50,
-    "60OFF": 60,
-    "70OFF": 70,
-    "80OFF": 80,
-    "90OFF": 90,
-    "100OFF": 100,
+export const coupons: Record<string, Coupon> = {
+    SAVE10: { discount: 10 },
+    SAVE20: { discount: 20 },
+    FREESHIP: { discount: 5 }, // Example: 5% discount for free shipping
 }

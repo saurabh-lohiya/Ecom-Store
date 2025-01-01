@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { coupons } from "../common/coupons";
 import useCartReducer from "../jotai/CartReducer";
+import { getProduct } from "../jotai/cart";
 
 export function useCart() {
     const [cart, dispatch] = useCartReducer()
@@ -41,9 +42,6 @@ export function useCart() {
     }
 
     const handleApplyCoupon = (couponCode: string) => {
-        // fetch all coupons from the server
-        // check if the coupon exists
-        // apply the coupon
         const isCouponValid = Object.prototype.hasOwnProperty.call(coupons, couponCode)
         if (!isCouponValid) {
             throw new Error("Invalid coupon")
@@ -56,13 +54,24 @@ export function useCart() {
         })
     }
 
+    const calculateCartTotal = () => {
+        return cart.items.reduce((acc, item) => {
+            const product = getProduct(item.id)
+            if (!product) {
+                throw new Error(`Product with id ${item.id} not found`)
+            }
+            return acc + product.price * item.quantity
+        }, 0)
+    }
+
     const handleRemoveCoupon = () => {
         dispatch({
             type: "REMOVE_COUPON",
         })
     }
+
     return {
-        cart,
+        cart: { ...cart, total: calculateCartTotal() },
         isSidebarCartOpen,
         setIsSidebarCartOpen,
         updateCartItemQuantity,
