@@ -20,7 +20,7 @@ export async function checkAuth() {
         //     return true
         // }
         console.error("User is not authenticated")
-        return true
+        return false
     } catch (error) {
         console.error(error)
         return false

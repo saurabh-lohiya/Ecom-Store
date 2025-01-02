@@ -8,19 +8,27 @@ import About from "./pages/About"
 import Contact from "./pages/Contact"
 import ModalWrapper from "./components/Modal/ModalWrapper"
 import Orders from "./components/Orders"
+import UserProtected from "./protected/UserProtected"
 
 const App = () => {
     return (
         <>
             <Router>
-            <Header />
-            <ModalWrapper />
-            <Banner />
+                <Header />
+                <ModalWrapper />
+                <Banner />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route path="/orders" element={<Orders />} />
+                    <Route
+                        path="/orders"
+                        element={
+                            <UserProtected>
+                                <Orders />
+                            </UserProtected>
+                        }
+                    />
                 </Routes>
             </Router>
             <Footer />

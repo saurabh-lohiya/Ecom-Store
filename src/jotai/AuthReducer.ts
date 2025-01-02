@@ -25,7 +25,15 @@ type ModifyUserAction = {
     payload: Pick<IUser, "name" | "email">
 }
 
-type AuthAction = LoginAction | LogoutAction | ModifyUserAction
+type SignupAction = {
+    type: "SIGNUP"
+    payload: {
+        name: string;
+        email: string;
+    }
+}
+
+type AuthAction = LoginAction | LogoutAction | ModifyUserAction | SignupAction
 
 const AuthReducer = (
     state: IUser = initialState,
@@ -53,7 +61,14 @@ const AuthReducer = (
                 name: action.payload.name,
                 email: action.payload.email,
             }
-
+        case "SIGNUP": {
+            return {
+                ...state,
+                isAuthenticated: true,
+                name: action.payload.name,
+                email: action.payload.email,
+            }
+        }
         default:
             return state
     }

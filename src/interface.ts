@@ -4,6 +4,7 @@ type IUser = {
     name: string;
     email: string;
     isAuthenticated: boolean;
+    isAdmin: boolean;
     cart: ICart;
 }
 
