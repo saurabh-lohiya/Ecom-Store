@@ -41,7 +41,9 @@ export function useCart() {
         })
     }
 
-    const handleApplyCoupon = (couponCode: string) => {
+    const handleApplyCoupon = async (couponCode: string) => {
+        // fetch coupon from server
+        await new Promise((resolve) => setTimeout(resolve, 1000))
         const isCouponValid = Object.prototype.hasOwnProperty.call(coupons, couponCode)
         if (!isCouponValid) {
             throw new Error("Invalid coupon")
@@ -55,13 +57,15 @@ export function useCart() {
     }
 
     const calculateCartTotal = () => {
-        return cart.items.reduce((acc, item) => {
+        const itemsTotal=  cart.items.reduce((acc, item) => {
             const product = getProduct(item.id)
             if (!product) {
                 throw new Error(`Product with id ${item.id} not found`)
             }
             return acc + product.price * item.quantity
         }, 0)
+        const discount = cart.couponCode ? coupons[cart.couponCode] : 0
+        return parseFloat((itemsTotal * (1 - discount / 100)).toFixed(2))
     }
 
     const handleRemoveCoupon = () => {

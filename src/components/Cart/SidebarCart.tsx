@@ -2,7 +2,7 @@ import { FC, useState } from "react"
 import { useCart } from "../../hooks/useCart"
 import CloseIcon from "../Modal/CloseIcon"
 import { useAuth } from "../../hooks/useAuth"
-import { useNavigate } from "react-router-dom" // Ensure react-router-dom is installed
+import { useNavigate } from "react-router-dom" 
 import { useModal } from "../../hooks/useModal"
 import FormWrapper from "../../forms/FormWrapper"
 import Login from "../../forms/Login"
@@ -52,13 +52,13 @@ const SidebarCart: FC<{ onClose: () => void }> = ({ onClose }) => {
     return (
         <div className="fixed top-0 right-0 h-full w-80 flex flex-col justify-between items-center bg-white shadow-lg z-[10000] transform translate-x-0 transition-transform duration-300">
             <div className="p-4 overflow-y-auto">
-            <button
-                className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
-                onClick={onClose}
-            >
-                <CloseIcon />
-            </button>
-            <h2 className="text-2xl font-bold p-4">Your Cart</h2>
+                <button
+                    className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+                    onClick={onClose}
+                >
+                    <CloseIcon />
+                </button>
+                <h2 className="text-2xl font-bold p-4">Your Cart</h2>
                 {cart.items.length === 0 ? (
                     <p className="text-gray-600">Your cart is empty.</p>
                 ) : (
@@ -113,12 +113,11 @@ const SidebarCart: FC<{ onClose: () => void }> = ({ onClose }) => {
                             </div>
                         )
                     })
-                )} 
+                )}
             </div>
             <div className="p-4">
                 {/* Coupon Section */}
                 <div className="mt-4">
-                    <h3 className="text-lg font-semibold">Apply Coupon</h3>
                     <div className="flex items-center mt-2">
                         <input
                             type="text"
@@ -129,29 +128,38 @@ const SidebarCart: FC<{ onClose: () => void }> = ({ onClose }) => {
                         />
                         <button
                             onClick={applyCoupon}
-                            className="ml-2 bg-blue-500 text-white px-4 py-2 rounded"
+                            className={`ml-2 bg-blue-500 text-white px-4 py-2 rounded ${
+                                !!cart.couponCode &&
+                                "cursor-not-allowed opacity-50 bg-gray-500"
+                            }`}
+                            disabled={!!cart.couponCode}
                         >
                             Apply
                         </button>
                     </div>
-                    {couponError && (
-                        <p className="text-red-500 text-sm mt-1">
-                            {couponError}
-                        </p>
-                    )}
-                    {cart.couponCode && (
-                        <div className="flex items-center mt-2">
-                            <span className="text-green-500 text-sm">
-                                Coupon "{cart.couponCode}" applied.
-                            </span>
-                            <button
-                                onClick={handleRemoveCoupon}
-                                className="ml-2 text-red-500 text-sm"
-                            >
-                                Remove
-                            </button>
-                        </div>
-                    )}
+                    <div className="text-red-500 text-sm mt-1 min-h-[1.25rem]">
+                        {couponError || " "}
+                    </div>
+                    <div className="flex items-center mt-2 min-h-[2.5rem]">
+                        {cart.couponCode.length > 0 ? (
+                            <>
+                                <span className="text-green-500 text-sm">
+                                    Coupon "{cart.couponCode}" applied.
+                                </span>
+                                <button
+                                    onClick={handleRemoveCoupon}
+                                    className="ml-2 text-red-500 text-sm"
+                                >
+                                    Remove
+                                </button>
+                            </>
+                        ) : (
+                            // Invisible placeholder to maintain layout
+                            <div className="text-sm invisible">
+                                No coupon applied.
+                            </div>
+                        )}
+                    </div>
                 </div>
                 <div className="text-lg font-bold mt-4">
                     Total: ${cart.total}
