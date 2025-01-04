@@ -2,7 +2,7 @@ import React from "react"
 import useForm, { required, minLength, pattern } from "../hooks/useForm"
 import FormField from "../forms/FormField"
 import { IWritableProduct } from "../interface"
-import { productCategoryMap } from "../common/products"
+import { productCategoryMap } from "../data/products"
 
 const categoryOptions = [
     ...Object.keys(productCategoryMap).map((category) => ({

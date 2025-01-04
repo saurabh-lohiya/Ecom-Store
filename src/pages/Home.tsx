@@ -1,6 +1,6 @@
-import { productCategoryMap } from "../common/products"
+import { productCategoryMap } from "../data/products"
 import ProductCollection from "../components/ProductCollection"
-import { products } from "../common/products"
+import { products } from "../data/products"
 import { IProducts } from "../interface"
 
 function Home() {

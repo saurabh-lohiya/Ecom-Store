@@ -8,6 +8,7 @@ import FormWrapper from "../../forms/FormWrapper"
 import Login from "../../forms/Login"
 import {  getProduct } from "../../jotai/cart"
 import { IProduct } from "../../interface"
+import { ICoupon } from "../../data/coupons"
 
 const SidebarCart: FC<{ onClose: () => void }> = ({ onClose }) => {
     const {
@@ -27,7 +28,7 @@ const SidebarCart: FC<{ onClose: () => void }> = ({ onClose }) => {
 
     const applyCoupon = async () => {
         try {
-            await handleApplyCoupon(couponCode)
+            await handleApplyCoupon(couponCode as ICoupon)
             setCouponError("")
             setCouponCode("")
         } catch (error: any) {
@@ -141,7 +142,7 @@ const SidebarCart: FC<{ onClose: () => void }> = ({ onClose }) => {
                         {couponError || " "}
                     </div>
                     <div className="flex items-center mt-2 min-h-[2.5rem]">
-                        {cart.couponCode.length > 0 ? (
+                        {cart.couponCode ? (
                             <>
                                 <span className="text-green-500 text-sm">
                                     Coupon "{cart.couponCode}" applied.
@@ -161,8 +162,9 @@ const SidebarCart: FC<{ onClose: () => void }> = ({ onClose }) => {
                         )}
                     </div>
                 </div>
+                {/* Total Section */}
                 <div className="text-lg font-bold mt-4">
-                    Total: ${cart.total}
+                    Total: ${cart.finalAmount}
                 </div>
                 <button
                     onClick={handleCheckout}

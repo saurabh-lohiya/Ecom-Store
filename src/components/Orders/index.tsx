@@ -1,12 +1,18 @@
-import React, { FC } from "react"
+import React, { FC, useCallback, useEffect } from "react"
 import { useCart } from "../../hooks/useCart"
 import useForm, { required, minLength, pattern } from "../../hooks/useForm"
 import { useNavigate } from "react-router-dom"
 import FormField from "../../forms/FormField"
+import { ordersPlacedByUser } from "../../data/orders"
+import { useAuth } from "../../hooks/useAuth"
 
 const Orders: FC = () => {
-    const { cart, handleClearCart, handleRemoveCoupon } = useCart()
+    const { cart, handleClearCart, handleRemoveCoupon, handleApplyCoupon } =
+        useCart()
     const navigate = useNavigate()
+    const {
+        userState: { id: userId },
+    } = useAuth()
     const { handleSubmit, registerField, errors } = useForm({
         name: "",
         address: "",
@@ -25,7 +31,20 @@ const Orders: FC = () => {
             handleRemoveCoupon()
         }
     }
-    
+
+    const applyDiscountToNthOrder = useCallback(async () => {
+        // Implement actual order number checking logic here
+        // Example: await checkOrderNumber(orderNumber)
+        // For now, we'll simulate with a timeout
+        const n = 4
+        const ordersPlaced = ordersPlacedByUser(userId as number)
+        if (ordersPlaced.length % n === 0) {
+            handleApplyCoupon("SAVE10")
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000))
+        return
+    }, [userId, handleApplyCoupon])
+
     const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         handleSubmit(e, async () => {
             const res: any = await placeOrder()
@@ -35,6 +54,10 @@ const Orders: FC = () => {
             }
         })
     }
+
+    useEffect(() => {
+        applyDiscountToNthOrder()
+    }, [applyDiscountToNthOrder])
 
     return (
         <div className="max-w-2xl mx-auto p-6">
@@ -52,7 +75,7 @@ const Orders: FC = () => {
                     error={errors.name}
                     placeholder="Enter your name"
                 />
-                
+
                 <FormField
                     label="Address"
                     id="address"
@@ -101,10 +124,12 @@ const Orders: FC = () => {
 
                 <div className="flex justify-between items-center">
                     {cart.couponCode && (
-                        <div className="text-green-500">Coupon "{cart.couponCode}" applied.</div>
+                        <div className="text-green-500">
+                            Coupon "{cart.couponCode}" applied.
+                        </div>
                     )}
                     <span className="text-xl font-semibold">
-                        Total: ${cart.total.toFixed(2)}
+                        Total: ${cart.finalAmount.toFixed(2)}
                     </span>
                 </div>
                 <button

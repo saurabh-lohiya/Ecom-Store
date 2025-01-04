@@ -1,7 +1,8 @@
 
 import { useEffect } from "react";
-import { checkAuth, getCookie } from "../helpers/auth";
+import { checkAuth, deleteCookie, getCookie } from "../helpers/auth"
 import useAuthReducer from "../jotai/AuthReducer";
+import { IAuthenticatedUser } from "../interface";
 
 export function useAuth() {
     const [userState, dispatch] = useAuthReducer()
@@ -13,6 +14,13 @@ export function useAuth() {
         const isAuthenticated = getCookie("is_authenticated") === "1"
         const isAdmin = getCookie("is_admin") === "1"
         return { isAuthenticated, isAdmin }
+    }
+
+    const setCookiesOnLogout = () => {
+        const cookiesToDelete = ["is_authenticated", "is_admin", "user_id", "name", "email"]
+        cookiesToDelete.forEach((cookie) => {
+            deleteCookie(cookie)
+        })
     }
 
     const login = async (email: string, password: string) => {
@@ -29,6 +37,7 @@ export function useAuth() {
                 dispatch({
                     type: "LOGIN",
                     payload: {
+                        id: data.id,
                         name: data.name,
                         email: data.email,
                         isAdmin: data.isAdmin,
@@ -48,6 +57,10 @@ export function useAuth() {
                     "Content-Type": "application/json",
                 }),
             })
+            if (!response.ok) {
+                throw new Error("Error logging out")
+            }
+            setCookiesOnLogout()
             if (response.ok) {
                 dispatch({
                     type: "LOGOUT",
@@ -99,9 +112,7 @@ export function useAuth() {
                 dispatch({
                     type: "LOGIN",
                     payload: {
-                        name: d.name,
-                        email: d.email,
-                        isAdmin: d.isAdmin,
+                        ...d as IAuthenticatedUser
                     },
                 })
             }

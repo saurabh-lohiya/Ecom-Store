@@ -5,6 +5,7 @@ import { initialCartState } from './cart';
 export const initialState: IUser = {
     isAuthenticated: false,
     isAdmin: true,
+    id: 1,
     name: '',
     email: '',
     cart: initialCartState,

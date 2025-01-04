@@ -1,7 +1,7 @@
 import { FC } from "react"
 import ProductCard from "../ProductCard"
 import type { IProducts } from "../../interface"
-import { productCategoryMap } from "../../common/products"
+import { productCategoryMap } from "../../data/products"
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 import './ProductCollection.scss'

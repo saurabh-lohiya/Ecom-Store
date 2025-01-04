@@ -11,6 +11,7 @@ export enum AuthActionTypes {
 type LoginAction = {
     type: "LOGIN",
     payload: {
+        id: number;
         name: string;
         email: string;
         isAdmin: boolean;
@@ -45,6 +46,7 @@ const AuthReducer = (
             return {
                 ...state,
                 isAuthenticated: true,
+                id: action.payload.id,
                 name: action.payload.name,
                 email: action.payload.email,
                 isAdmin: action.payload.isAdmin,
@@ -55,6 +57,7 @@ const AuthReducer = (
                 isAuthenticated: false,
                 name: "",
                 email: "",
+                id: undefined,
             }
 
         case "MODIFY_USER":

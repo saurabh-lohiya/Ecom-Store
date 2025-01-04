@@ -1,6 +1,27 @@
 // Consider moving interfaces here to global.d.ts or importing them where needed
 
+import { ICoupon } from "./data/coupons";
+
+type IAuthenticatedUser = {
+    id: number;
+    name: string;
+    email: string;
+    isAuthenticated: true;
+    isAdmin: boolean;
+    cart: ICart;
+}
+
+type IUnauthenticatedUser = {
+    id: undefined;
+    name: "";
+    email: "";
+    isAuthenticated: false;
+    isAdmin: false;
+    cart: ICart;
+}
+
 type IUser = {
+    id: number | undefined;
     name: string;
     email: string;
     isAuthenticated: boolean;
@@ -26,9 +47,12 @@ type IcartItem = {
 
 type ICart = {
     items: IcartItem[];
-    total: number;
-    count: number;
-    couponCode: string;
+    distinctItemsCount: number
+    totalItemsCount: number
+    cartTotal: number
+    finalAmount: number
+    discountAmount: number
+    couponCode: ICoupon | undefined;
 }
 
 type IProductCategoryName =
@@ -53,7 +77,14 @@ type IProductCollection = {
     category: string;
 }
 
+type IOrder = ICart & {
+    id: number
+    userId: number
+}
+
 export type {
+    IAuthenticatedUser,
+    IUnauthenticatedUser,
     IUser,
     IProduct,
     IWritableProduct,
@@ -63,4 +94,5 @@ export type {
     IProductCollection,
     IProductCategory,
     IProductCategoryName,
+    IOrder
 }

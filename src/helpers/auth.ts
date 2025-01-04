@@ -13,12 +13,18 @@ export function setCookie(key: string, value: string, days: number = 1): void {
     document.cookie = `${key}=${value};expires=${date.toUTCString()};path=/`
 }
 
+export function deleteCookie(key: string): void {
+    document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`
+}
+
 export async function checkAuth(): Promise<Omit<IUser, "cart">> {
     try {
         const isAuthenticated = getCookie("is_authenticated") === "1"
         const isAdmin = getCookie("is_admin") === "1"
+        const id = parseInt(getCookie("user_id")) || 2
         if (isAuthenticated) {
             return {
+                id,
                 isAuthenticated,
                 name: getCookie("name"),
                 email: getCookie("email"),
@@ -41,6 +47,7 @@ export async function checkAuth(): Promise<Omit<IUser, "cart">> {
 
 
         return {
+            id: 1,
             isAuthenticated: true,
             name: "",
             email: "",
@@ -49,6 +56,7 @@ export async function checkAuth(): Promise<Omit<IUser, "cart">> {
     } catch (error) {
         console.error(error)
         return {
+            id: 1,
             isAuthenticated: false,
             name: "",
             email: "",

@@ -11,6 +11,11 @@ export enum CartActionTypes {
     REDUCE_ITEM_QUANTITY = "REDUCE_ITEM_QUANTITY",
 }
 
+type initializeCartAction = {
+    type: "INITIALIZE_CART",
+    payload: Partial<ICart>
+}
+
 type updateCartItemQuantityAction = {
     type:"ADD_TO_CART",
     payload: {
@@ -53,12 +58,19 @@ type CartAction =
     | updateCartItemQuantityAction
     | RemoveFromCartAction
     | RemoveCartItemAction
+    | initializeCartAction
 
 const CartReducer = (
     state: ICart = initialCartState,
     action: CartAction
 ): ICart => {
     switch (action.type) {
+        case "INITIALIZE_CART":
+            return {
+                ...state,
+                ...action.payload,
+                items: action.payload.items || [],
+            }
         case "ADD_TO_CART": {
             const existingItem = state.items.find(
                 (item) => item.id === action.payload.id
@@ -126,7 +138,7 @@ const CartReducer = (
         case "REMOVE_COUPON":
             return {
                 ...state,
-                couponCode: "",
+                couponCode: undefined,
             }
 
         default:

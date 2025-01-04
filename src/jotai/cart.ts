@@ -1,6 +1,6 @@
 import { atom } from "jotai"
 import { ICart, IcartItem } from "../interface"
-import { products } from "../common/products"
+import { products } from "../data/products"
 
 export function getProduct(id: number) {
     return products.find((product) => product.id === id)
@@ -8,9 +8,12 @@ export function getProduct(id: number) {
 
 export const initialCartState = {
     items: [],
-    total: 0,
-    count: 0,
-    couponCode: "",
+    distinctItemsCount: 0,
+    totalItemsCount: 0,
+    cartTotal: 0,
+    finalAmount: 0,
+    discountAmount: 0,
+    couponCode: undefined,
 }
 
 const cartItemsAtom = atom<IcartItem[]>([])
