@@ -67,14 +67,15 @@ export function useCart() {
             }
             return acc + product.price * item.quantity
         }, 0)
-        return itemsTotal
+        const discountAmount = parseFloat(((cart.couponCode ? couponsDiscountMap[cart.couponCode] : 0) * itemsTotal / 100).toFixed(2))
+        const finalAmount = parseFloat((itemsTotal * (1 - discountAmount / 100)).toFixed(2))
+        return {
+            itemsTotal,
+            discountAmount,
+            finalAmount,
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(cart.items)])
-    
-    const calculateCartFinalAmount = useCallback((itemsTotal: number) => {
-        const discount = cart.couponCode ? couponsDiscountMap[cart.couponCode] : 0
-        return parseFloat((itemsTotal * (1 - discount / 100)).toFixed(2))
-    }, [cart.couponCode])
 
     const handleRemoveCoupon = () => {
         dispatch({
@@ -84,16 +85,15 @@ export function useCart() {
 
 
     useEffect(() => {
-        const cartTotal = calculateCartTotal()
         dispatch({
             type: "INITIALIZE_CART",
             payload: {
                 items: cart.items,
-                cartTotal: calculateCartTotal(),
-                finalAmount: calculateCartFinalAmount(cartTotal),
+                ...calculateCartTotal(),
             },
         })
-    }, [cart, calculateCartFinalAmount, calculateCartTotal, dispatch])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [JSON.stringify(cart.items), cart.couponCode, calculateCartTotal, dispatch])
 
     return {
         cart,
