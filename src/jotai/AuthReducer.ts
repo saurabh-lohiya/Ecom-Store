@@ -13,6 +13,7 @@ type LoginAction = {
     payload: {
         name: string;
         email: string;
+        isAdmin: boolean;
     }
 }
 
@@ -46,6 +47,7 @@ const AuthReducer = (
                 isAuthenticated: true,
                 name: action.payload.name,
                 email: action.payload.email,
+                isAdmin: action.payload.isAdmin,
             }
         case "LOGOUT":
             return {

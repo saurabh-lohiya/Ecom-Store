@@ -9,6 +9,8 @@ import Contact from "./pages/Contact"
 import ModalWrapper from "./components/Modal/ModalWrapper"
 import Orders from "./components/Orders"
 import UserProtected from "./protected/UserProtected"
+import CreateProduct from "./pages/CreateProduct"
+import AdminProtected from "./protected/AdminProtected"
 
 const App = () => {
     return (
@@ -27,6 +29,14 @@ const App = () => {
                             <UserProtected>
                                 <Orders />
                             </UserProtected>
+                        }
+                    />
+                    <Route
+                        path="/admin/create-product"
+                        element={
+                            <AdminProtected>
+                                <CreateProduct />
+                            </AdminProtected>
                         }
                     />
                 </Routes>

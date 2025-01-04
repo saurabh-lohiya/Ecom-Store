@@ -29,7 +29,7 @@ export function minLength<T extends string>(
 
 export default function useForm<T extends Record<string, unknown>>(initialValues: T) {
     const [values, setValues] = useState<T>(initialValues)
-    const [errors, setErrors] = useState<{ [key: string]: string }>({})
+    const [errors, setErrors] = useState<{ [K in keyof T]?: string | undefined }>({}) // Updated error type
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         const { name, value } = e.target
@@ -52,7 +52,7 @@ export default function useForm<T extends Record<string, unknown>>(initialValues
                     setErrors((prev) => ({ ...prev, [name]: error || "" }))
                 }
             },
-            error: errors[name as string],
+            error: errors[name],
         }
     }
 
@@ -60,10 +60,10 @@ export default function useForm<T extends Record<string, unknown>>(initialValues
         e: FormEvent<HTMLFormElement>,
         callback: () => Promise<void>
     ) {
-        e.preventDefault()
-        const newErrors: { [key: string]: string } = {}
+        e.preventDefault() // Prevent default form submission
+        const newErrors: { [K in keyof T]?: string } = {}
 
-        // Example validation logic
+        // Updated validation logic with proper key typing
         for (const key in values) {
             if (values[key] === "") {
                 newErrors[key] = `${key} is required`

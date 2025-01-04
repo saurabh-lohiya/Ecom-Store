@@ -1,3 +1,5 @@
+import { IUser } from "../interface"
+
 export function getCookie(key: string): string {
     const b: RegExpMatchArray | null = document.cookie.match(
         "(^|;)\\s*" + key + "\\s*=\\s*([^;]+)"
@@ -5,11 +7,23 @@ export function getCookie(key: string): string {
     return b ? (b.pop() as string) : ""
 }
 
-export async function checkAuth() {
+export function setCookie(key: string, value: string, days: number = 1): void {
+    const date = new Date()
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000)
+    document.cookie = `${key}=${value};expires=${date.toUTCString()};path=/`
+}
+
+export async function checkAuth(): Promise<Omit<IUser, "cart">> {
     try {
-        const isAuthenticated = getCookie("is_authenticated")
-        if (isAuthenticated === "1") {
-            return true
+        const isAuthenticated = getCookie("is_authenticated") === "1"
+        const isAdmin = getCookie("is_admin") === "1"
+        if (isAuthenticated) {
+            return {
+                isAuthenticated,
+                name: getCookie("name"),
+                email: getCookie("email"),
+                isAdmin
+            }
         }
         await new Promise((resolve) => setTimeout(resolve, 1000))
         // const response = await fetch("/api/auth/check", {
@@ -19,10 +33,26 @@ export async function checkAuth() {
         // if (response.ok) {
         //     return true
         // }
-        console.error("User is not authenticated")
-        return false
+        
+        // set Cookies
+
+        setCookie("is_authenticated", "1", 1)
+        setCookie("is_admin", "1", 1)
+
+
+        return {
+            isAuthenticated: true,
+            name: "",
+            email: "",
+            isAdmin: true
+        }
     } catch (error) {
         console.error(error)
-        return false
+        return {
+            isAuthenticated: false,
+            name: "",
+            email: "",
+            isAdmin: false
+        }
     }
 }

@@ -17,6 +17,8 @@ type IProduct = {
     img: string;
 }
 
+type IWritableProduct = Omit<IProduct, "id">
+
 type IcartItem = {
     id: number;
     quantity: number;
@@ -54,6 +56,7 @@ type IProductCollection = {
 export type {
     IUser,
     IProduct,
+    IWritableProduct,
     ICart,
     IcartItem,
     IProducts,

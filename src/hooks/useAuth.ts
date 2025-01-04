@@ -1,10 +1,20 @@
 
 import { useEffect } from "react";
-import { checkAuth } from "../helpers/auth";
+import { checkAuth, getCookie } from "../helpers/auth";
 import useAuthReducer from "../jotai/AuthReducer";
 
 export function useAuth() {
     const [userState, dispatch] = useAuthReducer()
+
+    const isUserLoggedIn = (): {
+        isAuthenticated: boolean
+        isAdmin: boolean
+    } => {
+        const isAuthenticated = getCookie("is_authenticated") === "1"
+        const isAdmin = getCookie("is_admin") === "1"
+        return { isAuthenticated, isAdmin }
+    }
+
     const login = async (email: string, password: string) => {
         try {
             const response = await fetch("/api/auth/login", {
@@ -21,6 +31,7 @@ export function useAuth() {
                     payload: {
                         name: data.name,
                         email: data.email,
+                        isAdmin: data.isAdmin,
                     },
                 })
             }
@@ -78,20 +89,29 @@ export function useAuth() {
     }
 
     useEffect(() => {
-        checkAuth().then((isAuthenticated) => {
-            dispatch({
-                type: isAuthenticated ? "LOGIN" : "LOGOUT",
-                payload: {
-                    name: "",
-                    email: "",
-                },
-            })
+        checkAuth().then((d) => {
+            if (!d.isAuthenticated) {
+                dispatch({
+                    type: "LOGOUT",
+                })
+                return
+            } else {
+                dispatch({
+                    type: "LOGIN",
+                    payload: {
+                        name: d.name,
+                        email: d.email,
+                        isAdmin: d.isAdmin,
+                    },
+                })
+            }
         }).catch((error) => {
             console.error(error)
         })
     }, [dispatch])
     return {
         userState,
+        isUserLoggedIn,
         redirectIfUserIsNotAuthenticated,
         login,
         logout,

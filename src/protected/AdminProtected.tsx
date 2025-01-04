@@ -1,19 +1,20 @@
 import { FC, ReactNode } from "react"
+import { Navigate } from "react-router-dom"
 import { useAuth } from "../hooks/useAuth"
-import { Route } from "react-router-dom"
 
-const AdminProtected: FC<{ children: ReactNode; rest: unknown }> = ({
-    children,
-    ...rest
-}) => {
-    const {
-        userState: { isAuthenticated, isAdmin },
-        redirectIfUserIsNotAuthenticated,
-    } = useAuth()
-    if (!isAuthenticated || !isAdmin) {
-        redirectIfUserIsNotAuthenticated()
-    }
-    return <Route {...rest}>{children}</Route>
+interface AdminProtectedProps {
+    children: ReactNode
 }
 
-export default AdminProtected
+const UserProtected: FC<AdminProtectedProps> = ({ children }) => {
+    const {isUserLoggedIn} = useAuth()
+    const { isAuthenticated, isAdmin } = isUserLoggedIn()
+
+    if (!isAuthenticated || !isAdmin) {
+        return <Navigate to="/login" replace />
+    }
+
+    return <>{children}</>
+}
+
+export default UserProtected
