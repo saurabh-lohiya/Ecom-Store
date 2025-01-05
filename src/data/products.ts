@@ -5,7 +5,7 @@ export const products: IProducts = [
         id: 1,
         title: "Lavender Bath Soap",
         description:
-            "Organic lavender-infused soap for a relaxing bath experience.",
+            "Organic lavender-infused soap for a relaxing bath experience with a calming scent of lavender. Made with natural ingredients, this soap is gentle on the skin and provides a soothing and refreshing cleanse. Perfect for unwinding after a long day.",
         categoryId: 1, 
         price: 5.99,
         img: "/src/assets/imgs/product.jpg",

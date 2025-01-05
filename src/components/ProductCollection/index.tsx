@@ -7,6 +7,7 @@ import { Pagination } from 'swiper/modules'
 import './ProductCollection.scss'
 import 'swiper/swiper-bundle.css'
 import 'swiper/modules';
+import useDevice from "../../hooks/useDevice"
 
 interface ProductCollectionProps {
     products: IProducts
@@ -16,6 +17,8 @@ interface ProductCollectionProps {
 const ProductCollection: FC<ProductCollectionProps> = (props) => {
     const { products, categoryId } = props
     const categoryName = productCategoryMap[categoryId]
+    const device = useDevice()
+    
     return (
         <section className="container mx-auto my-12">
             <h1 className="text-2xl font-bold text-gray-800 mb-4">
@@ -26,12 +29,12 @@ const ProductCollection: FC<ProductCollectionProps> = (props) => {
                     dynamicBullets: true,
                     clickable: true,
                 }}
-                slidesPerView={3}
+                slidesPerView={device === "mobile" ? 1 : 3}
+                spaceBetween={30}
                 modules={[Pagination]}
-                className="mySwiper"
             >
                 {products.map((product) => (
-                    <SwiperSlide key={product.id} className="w-60">
+                    <SwiperSlide key={product.id} className="w-full h-full">
                         <ProductCard
                             id={product.id}
                             title={product.title}
