@@ -1,10 +1,12 @@
-import { useForm, required, pattern } from "../hooks"
+import { useForm, required, pattern, useAuth, useModal } from "../hooks"
 
 const Login = () => {
     const { registerField, handleSubmit, errors } = useForm({
         email: "",
         password: "",
     })
+    const { login } = useAuth()
+    const { toggleModalState } = useModal()
 
     return (
         <form
@@ -12,6 +14,12 @@ const Login = () => {
             onSubmit={(e) =>
                 handleSubmit(e, async () => {
                     // Your login logic here
+                    const values = {
+                        email: e.currentTarget.email.value,
+                        password: e.currentTarget.password.value,
+                    }
+                    await login(values.email, values.password)
+                    toggleModalState()
                 })
             }
         >

@@ -1,6 +1,7 @@
 
 import { useEffect } from "react";
-import { checkAuth, deleteCookie, getCookie } from "../helpers/auth"
+import { checkAuth } from "../helpers/auth"
+import { deleteCookie, getCookie, setCookie } from "../helpers/cookies";
 import useAuthReducer from "../jotai/AuthReducer";
 import { IAuthenticatedUser } from "../interface";
 
@@ -17,33 +18,62 @@ export function useAuth() {
     }
 
     const setCookiesOnLogout = () => {
-        const cookiesToDelete = ["is_authenticated", "is_admin", "user_id", "name", "email"]
+        const cookiesToDelete = [
+            "is_authenticated",
+            "is_admin",
+            "user_id",
+            "name",
+            "email",
+        ]
         cookiesToDelete.forEach((cookie) => {
             deleteCookie(cookie)
         })
     }
 
+    const setCookiesOnLogin = (data: Omit<IAuthenticatedUser, 'cart'>) => {
+        const { id, name, email, isAdmin } = data
+        const cookies = [
+            { key: "is_authenticated", value: "1" },
+            { key: "is_admin", value: isAdmin ? "1" : "0" },
+            { key: "user_id", value: id.toString() },
+            { key: "name", value: name },
+            { key: "email", value: email },
+        ]
+        cookies.forEach((cookie) => {
+            setCookie(cookie.key, cookie.value, 1)
+        })
+    }
+
     const login = async (email: string, password: string) => {
         try {
-            const response = await fetch("/api/auth/login", {
-                method: "POST",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                }),
-                body: JSON.stringify({ email, password }),
+            // const response = await fetch("/api/auth/login", {
+            //     method: "POST",
+            //     headers: new Headers({
+            //         "Content-Type": "application/json",
+            //     }),
+            //     body: JSON.stringify({ email, password }),
+            // })
+            await new Promise((resolve) =>
+                setTimeout(() => resolve({ ok: true }), 1000)
+            )
+            // Fetch User Data
+            setCookiesOnLogin({
+                isAuthenticated: true,
+                id: 1,
+                name: "John Doe",
+                email,
+                isAdmin: false,
             })
-            if (response.ok) {
-                const data = await response.json()
-                dispatch({
-                    type: "LOGIN",
-                    payload: {
-                        id: data.id,
-                        name: data.name,
-                        email: data.email,
-                        isAdmin: data.isAdmin,
-                    },
-                })
-            }
+            dispatch({
+                type: "LOGIN",
+                payload: {
+                    id: 1,
+                    name: "John Doe",
+                    email,
+                    isAdmin: false,
+                },
+            })
+            // Fetch User Data and dispatch to reducer
         } catch (error) {
             console.error(error)
         }
@@ -120,6 +150,7 @@ export function useAuth() {
             console.error(error)
         })
     }, [dispatch])
+    
     return {
         userState,
         isUserLoggedIn,
