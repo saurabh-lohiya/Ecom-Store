@@ -51,10 +51,14 @@ export function useCart() {
         if (!isCouponValid) {
             throw new Error("Invalid coupon")
         }
+        const { cartTotal, discountAmount, finalAmount } = calculateCartTotal()
         dispatch({
             type: "APPLY_COUPON",
             payload: {
                 couponCode,
+                cartTotal,
+                discountAmount,
+                finalAmount,
             },
         })
     }
@@ -67,19 +71,24 @@ export function useCart() {
             }
             return acc + product.price * item.quantity
         }, 0)
-        const discountAmount = parseFloat(((cart.couponCode ? couponsDiscountMap[cart.couponCode] : 0) * itemsTotal / 100).toFixed(2))
-        const finalAmount = parseFloat((itemsTotal * (1 - discountAmount / 100)).toFixed(2))
+        const cartTotal = parseFloat(itemsTotal.toFixed(2))
+        const discountPercentage = cart.couponCode ? couponsDiscountMap[cart.couponCode] : 0
+        const discountAmount = parseFloat((discountPercentage * cartTotal / 100).toFixed(2))
+        const finalAmount = parseFloat((cartTotal - discountAmount).toFixed(2))
         return {
-            itemsTotal,
+            cartTotal,
             discountAmount,
             finalAmount,
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [JSON.stringify(cart.items)])
+    }, [JSON.stringify(cart.items), cart.couponCode])
 
     const handleRemoveCoupon = () => {
         dispatch({
             type: "REMOVE_COUPON",
+            payload: {
+                finalAmount: calculateCartTotal().finalAmount,
+            }
         })
     }
 

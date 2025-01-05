@@ -36,12 +36,18 @@ type ClearCartAction = {
 }
 
 type ApplyCouponAction = {
-    type: "APPLY_COUPON",
-    payload: Pick<ICart, 'couponCode'>
+    type: "APPLY_COUPON"
+    payload: Pick<
+        ICart,
+        "couponCode" | "cartTotal" | "finalAmount" | "discountAmount"
+    >
 }
 
 type RemoveCouponAction = {
     type: "REMOVE_COUPON",
+    payload: {
+        finalAmount: number;
+    }
 }
 
 type RemoveCartItemAction = {
@@ -134,11 +140,17 @@ const CartReducer = (
             return {
                 ...state,
                 couponCode: action.payload.couponCode,
+                cartTotal: action.payload.cartTotal,
+                finalAmount: action.payload.finalAmount,
+                discountAmount: action.payload.discountAmount,
             }
         case "REMOVE_COUPON":
             return {
                 ...state,
                 couponCode: undefined,
+                discountAmount: 0,
+                finalAmount: state.cartTotal,
+                cartTotal: state.cartTotal,
             }
 
         default:
