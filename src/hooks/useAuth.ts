@@ -81,21 +81,23 @@ export function useAuth() {
 
     const logout = async () => {
         try {
-            const response = await fetch("/api/auth/logout", {
-                method: "POST",
-                headers: new Headers({
-                    "Content-Type": "application/json",
-                }),
-            })
-            if (!response.ok) {
-                throw new Error("Error logging out")
-            }
+            // const response = await fetch("/api/auth/logout", {
+            //     method: "POST",
+            //     headers: new Headers({
+            //         "Content-Type": "application/json",
+            //     }),
+            // })
+            // if (!response.ok) {
+            //     throw new Error("Error logging out")
+            // }
+            await new Promise((resolve) => setTimeout(() => resolve, 1000))
+            
             setCookiesOnLogout()
-            if (response.ok) {
-                dispatch({
-                    type: "LOGOUT",
-                })
-            }
+            // if (response.ok) {
+            dispatch({
+                type: "LOGOUT",
+            })
+            // }
         } catch (error) {
             console.error(error)
         }
@@ -150,7 +152,7 @@ export function useAuth() {
             console.error(error)
         })
     }, [dispatch])
-    
+
     return {
         userState,
         isUserLoggedIn,

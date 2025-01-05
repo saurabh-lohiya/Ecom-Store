@@ -8,8 +8,8 @@ import SidebarCart from "../Cart/SidebarCart"
 import { useState } from "react" // Added import for useState
 
 const Navbar = () => {
+    const { userState, logout } = useAuth() // Import logout from useAuth
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false) // Added state for mobile menu
-    const { userState } = useAuth()
     const isAuthenticated = userState.isAuthenticated
     const { toggleModalState } = useModal()
     const { cart, isSidebarCartOpen, setIsSidebarCartOpen } = useCart()
@@ -68,13 +68,20 @@ const Navbar = () => {
                                     </button>
                                 </div>
                             ) : (
-                                // Replace Profile link with button
-                                <button
-                                    onClick={navigateToProfile}
-                                    className="text-gray-800 bg-transparent border-none cursor-pointer"
-                                >
-                                    Profile
-                                </button>
+                                <>
+                                    <button
+                                        onClick={navigateToProfile}
+                                        className="text-gray-800 bg-transparent border-none cursor-pointer"
+                                    >
+                                        Profile
+                                    </button>
+                                    <button
+                                        onClick={logout} // Add Logout button
+                                        className="text-gray-800 bg-transparent border-none cursor-pointer"
+                                    >
+                                        Logout
+                                    </button>
+                                </>
                             )}
                             {/* Add Cart button */}
                             <button
@@ -137,12 +144,20 @@ const Navbar = () => {
                                     </button>
                                 </>
                             ) : (
-                                <button
-                                    onClick={navigateToProfile}
-                                    className="block text-gray-800 w-full text-left px-3 py-2 rounded-md text-base font-medium"
-                                >
-                                    Profile
-                                </button>
+                                <>
+                                    <button
+                                        onClick={navigateToProfile}
+                                        className="block text-gray-800 w-full text-left px-3 py-2 rounded-md text-base font-medium"
+                                    >
+                                        Profile
+                                    </button>
+                                    <button
+                                        onClick={logout} // Add Logout button
+                                        className="block text-gray-800 w-full text-left px-3 py-2 rounded-md text-base font-medium"
+                                    >
+                                        Logout
+                                    </button>
+                                </>
                             )}
                             {/* Add Cart button */}
                             <button
