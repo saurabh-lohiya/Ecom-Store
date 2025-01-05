@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { useCart } from "../../hooks/useCart"
+import { useCart } from "../../hooks"
 
 interface ProductCardProps {
     id: number

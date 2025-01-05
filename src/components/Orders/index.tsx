@@ -1,10 +1,10 @@
 import React, { FC, useCallback, useEffect } from "react"
-import { useCart } from "../../hooks/useCart"
-import useForm, { required, minLength, pattern } from "../../hooks/useForm"
+import { useCart } from "../../hooks"
+import { useForm, required, minLength, pattern } from "../../hooks"
 import { useNavigate } from "react-router-dom"
 import FormField from "../../forms/FormField"
 import { ordersPlacedByUser } from "../../data/orders"
-import { useAuth } from "../../hooks/useAuth"
+import { useAuth } from "../../hooks"
 
 const Orders: FC = () => {
     const { cart, handleClearCart, handleRemoveCoupon, handleApplyCoupon } =

@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { useCart } from "../../hooks/useCart"
+import { useCart } from "../../hooks"
 
 const CartSummary: FC = () => {
     const {cart: {cartTotal, discountAmount, finalAmount}} = useCart()

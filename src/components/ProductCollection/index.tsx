@@ -7,7 +7,7 @@ import { Pagination } from 'swiper/modules'
 import './ProductCollection.scss'
 import 'swiper/swiper-bundle.css'
 import 'swiper/modules';
-import useDevice from "../../hooks/useDevice"
+import { useDevice } from "../../hooks"
 
 interface ProductCollectionProps {
     products: IProducts
@@ -18,7 +18,7 @@ const ProductCollection: FC<ProductCollectionProps> = (props) => {
     const { products, categoryId } = props
     const categoryName = productCategoryMap[categoryId]
     const device = useDevice()
-    
+
     return (
         <section className="container mx-auto my-12">
             <h1 className="text-2xl font-bold text-gray-800 mb-4">

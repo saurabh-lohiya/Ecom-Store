@@ -1,7 +1,7 @@
 
 import { FC, useState } from "react"
 import { type ICart } from "../../interface"
-import { useCart } from "../../hooks/useCart"
+import { useCart } from "../../hooks"
 import { ICoupon } from "../../data/coupons"
 
 interface CouponErrorProps {

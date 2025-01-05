@@ -2,7 +2,7 @@
 import { FC } from "react"
 import { IcartItem, IProduct } from "../../interface"
 import { getProduct } from "../../jotai/cart"
-import { useCart } from "../../hooks/useCart"
+import { useCart } from "../../hooks"
 
 interface CartItemProps {
     item: IcartItem

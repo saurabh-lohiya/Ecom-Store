@@ -1,5 +1,5 @@
 
-import useForm, { required, pattern, minLength, matchField } from "../hooks/useForm"
+import { useForm, required, pattern, minLength, matchField } from "../hooks"
 
 const Signup = () => {
     const { registerField, handleSubmit, errors } = useForm({

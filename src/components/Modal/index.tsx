@@ -1,5 +1,5 @@
 import { FC } from "react"
-import { useModal } from "../../hooks/useModal"
+import { useModal } from "../../hooks"
 import CloseIcon from "./CloseIcon"
 
 const Modal: FC = () => {

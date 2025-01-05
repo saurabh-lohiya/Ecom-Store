@@ -27,7 +27,7 @@ export function minLength<T extends string>(
     return (value: T) => (value.length >= length ? undefined : message)
 }
 
-export default function useForm<T extends Record<string, unknown>>(initialValues: T) {
+export function useForm<T extends Record<string, unknown>>(initialValues: T) {
     const [values, setValues] = useState<T>(initialValues)
     const [errors, setErrors] = useState<{ [K in keyof T]?: string | undefined }>({}) // Updated error type
 

@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react"
-import { useAuth } from "../hooks/useAuth"
+import { useAuth } from "../hooks"
 import { Navigate } from "react-router-dom"
 
 interface UserProtectedProps {

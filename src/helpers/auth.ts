@@ -22,15 +22,15 @@ export async function checkAuth(): Promise<Omit<IUser, "cart">> {
         const isAuthenticated = getCookie("is_authenticated") === "1"
         const isAdmin = getCookie("is_admin") === "1"
         const id = parseInt(getCookie("user_id")) || 2
-        if (isAuthenticated) {
-            return {
-                id,
-                isAuthenticated,
-                name: getCookie("name"),
-                email: getCookie("email"),
-                isAdmin
-            }
-        }
+        // if (isAuthenticated) {
+        //     return {
+        //         id,
+        //         isAuthenticated,
+        //         name: getCookie("name"),
+        //         email: getCookie("email"),
+        //         isAdmin
+        //     }
+        // }
         await new Promise((resolve) => setTimeout(resolve, 1000))
         // const response = await fetch("/api/auth/check", {
         //     method: "POST",
@@ -48,7 +48,7 @@ export async function checkAuth(): Promise<Omit<IUser, "cart">> {
 
         return {
             id: 1,
-            isAuthenticated: true,
+            isAuthenticated: false,
             name: "",
             email: "",
             isAdmin: true

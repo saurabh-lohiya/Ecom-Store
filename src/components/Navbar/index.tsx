@@ -1,9 +1,9 @@
-import { useAuth } from "../../hooks/useAuth"
-import { useModal } from "../../hooks/useModal"
+import { useAuth } from "../../hooks"
+import { useModal } from "../../hooks"
 import Login from "../../forms/Login"
 import FormWrapper from "../../forms/FormWrapper"
 import Signup from "../../forms/Signup"
-import { useCart } from "../../hooks/useCart"
+import { useCart } from "../../hooks"
 import SidebarCart from "../Cart/SidebarCart"
 import { useState } from "react" // Added import for useState
 

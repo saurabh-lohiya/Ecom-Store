@@ -1,5 +1,5 @@
 import React from "react"
-import useForm, { required, minLength, pattern } from "../hooks/useForm"
+import { useForm, required, minLength, pattern } from "../hooks"
 import FormField from "../forms/FormField"
 import { IWritableProduct } from "../interface"
 import { productCategoryMap } from "../data/products"

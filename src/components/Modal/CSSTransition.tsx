@@ -19,9 +19,9 @@ const CSSTransition: FC<CSSTransitionProps> = ({
     const [state, setState] = useState<string>("")
 
     useEffect(() => {
-        let enterTimeout: NodeJS.Timeout
-        let exitTimeout: NodeJS.Timeout
-        let unmountTimeout: NodeJS.Timeout
+        let enterTimeout: ReturnType<typeof setTimeout>
+        let exitTimeout: ReturnType<typeof setTimeout>
+        let unmountTimeout: ReturnType<typeof setTimeout>
 
         if (inProp) {
             setShow(true)

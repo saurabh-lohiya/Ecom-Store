@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 
 type DeviceType = "mobile" | "tablet" | "desktop"
 
-const useDevice = (): DeviceType => {
+export const useDevice = (): DeviceType => {
     const [device, setDevice] = useState<DeviceType>(getDeviceType())
 
     function getDeviceType(): DeviceType {
@@ -28,5 +28,3 @@ const useDevice = (): DeviceType => {
 
     return device
 }
-
-export default useDevice

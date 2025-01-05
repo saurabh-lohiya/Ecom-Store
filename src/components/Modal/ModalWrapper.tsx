@@ -1,7 +1,7 @@
 import { FC } from "react"
 import Modal from "./index"
 import CSSTransition from "./CSSTransition" // Import custom CSSTransition
-import { useModal } from "../../hooks/useModal" // Import useModal hook
+import { useModal } from "../../hooks"
 import "./ModalWrapper.css" // Import CSS for animations
 
 const ModalWrapper: FC = () => {
