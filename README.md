@@ -2,6 +2,13 @@
 
 Ecom-Store is a modern e-commerce platform designed to provide a seamless shopping experience for health and wellness products. Built with React and TypeScript, Ecom-Store offers robust features including user authentication, a dynamic shopping cart, coupon management, and responsive design to ensure accessibility across all devices.
 
+### Features
+
+- **User Authentication**: Simulated sign-up and login functionality.
+- **Dynamic Shopping Cart**: Add, remove, and update items in the cart.
+- **Coupon Management**: Apply and manage discount codes.
+- **Responsive Design**: Optimized for all device sizes.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
