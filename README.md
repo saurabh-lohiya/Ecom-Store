@@ -1,3 +1,7 @@
+# Ecom-Store
+
+Ecom-Store is a modern e-commerce platform designed to provide a seamless shopping experience for health and wellness products. Built with React and TypeScript, Ecom-Store offers robust features including user authentication, a dynamic shopping cart, coupon management, and responsive design to ensure accessibility across all devices.
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -48,3 +52,104 @@ export default tseslint.config({
   },
 })
 ```
+
+## Project Structure
+
+```
+Ecom-Store/
+├── src/
+│   ├── components/
+│   │   ├── Cart/
+│   │   │   ├── CartItem.tsx
+│   │   │   ├── CouponSection.tsx
+│   │   │   ├── CartSummary.tsx
+│   │   │   └── SidebarCart.tsx
+│   │   ├── Header/
+│   │   │   └── index.tsx
+│   │   ├── Navbar/
+│   │   │   └── index.tsx
+│   │   ├── ProductCard/
+│   │   │   └── index.tsx
+│   │   └── ProductCollection/
+│   │       └── index.tsx
+│   ├── hooks/
+│   │   ├── useAuth.ts
+│   │   ├── useCart.ts
+│   │   └── useDevice.ts
+│   ├── data/
+│   │   ├── coupons.ts
+│   │   ├── orders.ts
+│   │   └── products.ts
+│   ├── forms/
+│   │   ├── FormWrapper.tsx
+│   │   ├── Login.tsx
+│   │   └── Signup.tsx
+│   ├── interface.ts
+│   ├── jotai/
+│   │   ├── CartReducer.ts
+│   │   └── cart.ts
+│   ├── App.tsx
+│   └── index.tsx
+├── public/
+├── README.md
+├── package.json
+└── tsconfig.json
+```
+
+## Contribution Guidelines
+
+Contributions are welcome! Please follow these steps to contribute:
+
+1. **Fork the Repository**
+
+   Click the "Fork" button at the top right of the repository page to create a copy of the repository under your GitHub account.
+
+2. **Clone the Forked Repository**
+
+   ```bash
+   git clone https://github.com/yourusername/Ecom-Store.git
+   ```
+
+3. **Navigate to the Project Directory**
+
+   ```bash
+   cd Ecom-Store
+   ```
+
+4. **Create a New Branch**
+
+   ```bash
+   git checkout -b feature/YourFeatureName
+   ```
+
+5. **Make Your Changes**
+
+   Implement your feature or bug fix in the codebase.
+
+6. **Commit Your Changes**
+
+   ```bash
+   git commit -m "Add some feature"
+   ```
+
+7. **Push to the Branch**
+
+   ```bash
+   git push origin feature/YourFeatureName
+   ```
+
+8. **Open a Pull Request**
+
+   Navigate to the original repository and click on "Compare & pull request" to submit your changes for review.
+
+9. **Describe Your Changes**
+
+   Provide a clear description of what you've done and why. Reference any related issues.
+
+10. **Wait for Feedback**
+
+    The maintainers will review your pull request and may request changes or approve it for merging.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
