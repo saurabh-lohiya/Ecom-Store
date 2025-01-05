@@ -1,20 +1,18 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom"
 import "./App.css"
 import Header from "./components/Header"
 import Banner from "./components/Banner"
 import Footer from "./components/Footer"
+import ModalWrapper from "./components/Modal/ModalWrapper"
+import UserRoutes from "./routes/UserRoutes"
+import AdminRoutes from "./routes/AdminRoutes"
 import Home from "./pages/Home"
 import About from "./pages/About"
 import Contact from "./pages/Contact"
-import ModalWrapper from "./components/Modal/ModalWrapper"
-import Orders from "./components/Orders"
-import UserProtected from "./protected/UserProtected"
-import CreateProduct from "./pages/CreateProduct"
-import AdminProtected from "./protected/AdminProtected"
 
 const App = () => {
     return (
-        <>
+        <div className="w-full h-full min-h-screen flex flex-col">
             <Router>
                 <Header />
                 <ModalWrapper />
@@ -23,26 +21,12 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
-                    <Route
-                        path="/orders"
-                        element={
-                            <UserProtected>
-                                <Orders />
-                            </UserProtected>
-                        }
-                    />
-                    <Route
-                        path="/admin/create-product"
-                        element={
-                            <AdminProtected>
-                                <CreateProduct />
-                            </AdminProtected>
-                        }
-                    />
                 </Routes>
+                <UserRoutes />
+                <AdminRoutes />
+                <Footer />
             </Router>
-            <Footer />
-        </>
+        </div>
     )
 }
 
